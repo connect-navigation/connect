@@ -7,4 +7,6 @@
 *.jpeg          binary
 *.png           binary
 *.mkv           binary
+*.pdf           binary
+
 
