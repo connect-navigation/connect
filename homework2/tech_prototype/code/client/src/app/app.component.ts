@@ -20,7 +20,7 @@ export class AppComponent {
     // @ts-ignore
     let results: HTMLElement = document.getElementById('search-results');
 
-    let features = {};
+    let features: object = {};
     let keys: string[] = [];
     async function get() {
       let coffeeShops = new CoffeeShopRepository().all();
@@ -29,23 +29,40 @@ export class AppComponent {
       let restaurants = new RestaurantRepository().all();
       let superMarkets =  new SuperMarketRepository().all();
 
-      for (let value of await coffeeShops) {// @ts-ignore
-        features['Coffee Shop "' + value.name + '"'] = value;
+      for (let value of await coffeeShops) {
+        let key = 'Coffee Shop "' + value.name + '"';
+        // @ts-ignore
+        features[key] = value;
+        keys.push(key);
       }
       for (let value of await gasStations) {// @ts-ignore
-        features['Gas Station "' + value.name + '"'] = value;
+        let key = 'Gas Station "' + value.name + '"';
+        // @ts-ignore
+        features[key] = value;
+        keys.push(key);
       }
-      for (let value of await hotels) {// @ts-ignore
-        features['Hotel "' + value.name + '"'] = value;
+      // @ts-ignore
+      let hotelsSorted = (await hotels).sort((a: object, b: object) => (b.stars - a.stars));
+      for (let value of hotelsSorted) {// @ts-ignore
+        let key = 'Hotel "' + value.name + '"';
+        // @ts-ignore
+        features[key] = value;
+        keys.push(key);
       }
-      for (let value of await restaurants) {// @ts-ignore
-        features['Restaurant "' + value.name + '"'] = value;
+      // @ts-ignore
+      let restaurantsSorted = (await restaurants).sort((a: object, b: object) => (b.stars - a.stars));
+      for (let value of restaurantsSorted) {// @ts-ignore
+        let key = 'Restaurant "' + value.name + '"';
+        // @ts-ignore
+        features[key] = value;
+        keys.push(key);
       }
       for (let value of await superMarkets) {// @ts-ignore
-        features['Super Market "' + value.name + '"'] = value;
+        let key = 'Super Market "' + value.name + '"';
+        // @ts-ignore
+        features[key] = value;
+        keys.push(key);
       }
-
-      keys = Object.keys(features);
     }
     get().then(x => {});
 
@@ -57,7 +74,6 @@ export class AppComponent {
         results.removeAttribute('hidden');
       }
       // console.log(value);
-      // results.remov
       results.innerHTML = '';
       let count = 0;
       for (let key of keys) {
@@ -71,6 +87,23 @@ export class AppComponent {
         // @ts-ignore
         elem.innerHTML = key;
         elem.classList.add('search-result-item');
+
+        // @ts-ignore
+        let stars = features[key].stars;
+        if (stars != undefined) {
+          let starsContainer = document.createElement('span');
+          starsContainer.style.textAlign = 'right';
+          let star = document.createElement('i');
+          star.classList.add('fa-solid');
+          star.classList.add('fa-star');
+          star.style.color = 'yellow';
+          let counter = document.createElement('span');
+          counter.innerHTML = `x ${stars}`;
+          starsContainer.appendChild(star);
+          starsContainer.appendChild(counter);
+          elem.appendChild(starsContainer);
+        }
+
         results.appendChild(elem);
 
         count++;

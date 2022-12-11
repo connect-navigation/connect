@@ -15,13 +15,10 @@ import {
   HotelRepository, RestaurantRepository,
   SuperMarketRepository
 } from "../../repository/repositories";
-import {
-  DragRotateAndZoom,
-  defaults as defaultInteractions,
-} from 'ol/interaction';
-import {FullScreen, defaults as defaultControls} from 'ol/control';
-import {Icon, Style} from "ol/style";
+import {Fill, Icon, Stroke, Style} from "ol/style";
 import {Size} from "ol/size";
+import Geolocation from 'ol/Geolocation';
+import CircleStyle from "ol/style/Circle";
 
 @Component({
   selector: 'app-map',
@@ -53,6 +50,10 @@ export class MapComponent implements OnInit {
 
     const place = [21.8958, 41.5363];
     const point = new Point(place);
+    const view = new View({
+      center: place,
+      zoom: 8.7
+    });
 
     this.map = new Map({
       layers: [
@@ -70,9 +71,62 @@ export class MapComponent implements OnInit {
         // })
       ],
       target: 'map',
-      view: new View({
-        center: place,
-        zoom: 8.7
+      view: view,
+    });
+
+    const geolocation = new Geolocation({
+      // enableHighAccuracy must be set to true to have the heading value.
+      trackingOptions: {
+        enableHighAccuracy: true,
+      },
+      projection: view.getProjection(),
+    });
+
+
+    // update the HTML page when the position changes.
+    // geolocation.on('change', function () {
+    //   geolocation.get
+    // });
+
+    // handle geolocation error.
+    geolocation.on('error', function (error) {
+      // const info = document.getElementById('info');
+      // info.innerHTML = error.message;
+      // info.style.display = '';
+      // @ts-ignore
+      console.log(error.message);
+    });
+
+    const accuracyFeature = new Feature();
+    geolocation.on('change:accuracyGeometry', function () {
+      accuracyFeature.setGeometry(geolocation.getAccuracyGeometry() || undefined);
+    });
+
+    const positionFeature = new Feature();
+    positionFeature.setStyle(
+      new Style({
+        image: new CircleStyle({
+          radius: 6,
+          fill: new Fill({
+            color: '#3399CC',
+          }),
+          stroke: new Stroke({
+            color: '#fff',
+            width: 2,
+          }),
+        }),
+      })
+    );
+
+    geolocation.on('change:position', function () {
+      const coordinates = geolocation.getPosition();
+      positionFeature.setGeometry(coordinates ? new Point(coordinates) : undefined);
+    });
+
+    new VectorLayer({
+      map: this.map,
+      source: new VectorSource({
+        features: [accuracyFeature, positionFeature],
       }),
     });
 

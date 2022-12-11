@@ -60,7 +60,8 @@ public class DataHolder {
                     Long.parseLong(value[0]),
                     Double.parseDouble(value[1]),
                     Double.parseDouble(value[2]),
-                    value[3]
+                    value[3],
+                    Byte.parseByte(value[4])
             ));
         }
 
@@ -71,7 +72,8 @@ public class DataHolder {
                     Long.parseLong(value[0]),
                     Double.parseDouble(value[1]),
                     Double.parseDouble(value[2]),
-                    value[3]
+                    value[3],
+                    Byte.parseByte(value[4])
             ));
         }
 

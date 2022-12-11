@@ -76,6 +76,11 @@ html, body {
   background-color: white;
   border-bottom: solid 1px lightslategray;
   margin: 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 button.ol-zoom-in, button.ol-zoom-out {

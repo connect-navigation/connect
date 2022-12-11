@@ -6,8 +6,10 @@ import lombok.Data;
 @Data
 @Entity
 public class Restaurant extends Feature {
-    public Restaurant(long id, double lat, double lon, String name) {
+    byte stars;
+    public Restaurant(long id, double lat, double lon, String name, byte stars) {
         super(id, lat, lon, name);
+        this.stars = stars;
     }
     public Restaurant() {}
 }
