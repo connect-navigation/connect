@@ -1,0 +1,136 @@
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.map:-webkit-full-screen {
+  height: 100%;
+  margin: 0;
+}
+.map:fullscreen {
+  height: 100%;
+}
+/* position the rotate control lower than usual */
+.map .ol-rotate {
+  top: 3em;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css');
+
+:root {
+  --button-height: 35px;
+}
+
+#control-panel {
+  position: fixed;
+  top: 1.5%;
+  left: 2.5%;
+  z-index: 100;
+
+  display: flex;
+  flex-direction: row;
+
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 2px;
+
+  margin-left: 7%;
+  width: 75%;
+  height: var(--button-height);
+}
+
+#search-box {
+  display: flex;
+  flex-direction: row;
+}
+
+#search-input {
+  width: 300px;
+  padding: 8px;
+  height: 15px;
+
+  border-radius: 6px;
+  border: solid 2px lightgray;
+}
+
+#search-results > p {
+  width: 300px;
+}
+
+#search-results p:last-child {
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.search-result-item {
+  padding: 8px 10px;
+
+  background-color: white;
+  border-bottom: solid 1px lightslategray;
+  margin: 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button.ol-zoom-in, button.ol-zoom-out {
+  padding: 8px;
+  width: var(--button-height);
+  height: var(--button-height);
+  border-radius: 8px;
+  /*margin-right: 10%;*/
+  margin: 8px 0px 0px 8px;
+  border: solid 2px lightgray;
+  z-index: 100000;
+  background-color: white;
+}
+
+button.ol-zoom-in:hover, button.ol-zoom-out:hover {
+  background-color: beige;
+}
+
+button.ol-zoom-in:active, button.ol-zoom-out:active {
+  background-color: slategray;
+}
+
+div.ol-attribution > button, .ol-rotate-reset {
+  display: none;
+}
+
+.button {
+  padding: 8px;
+  height: var(--button-height);
+  border-radius: 14px;
+  margin-right: 18px;
+  border: solid 2px lightgray;
+
+  background-color: white;
+}
+
+.button:hover {
+  background-color: beige;
+}
+
+.button:active {
+  background-color: slategray;
+}
+
+#search-button {
+}
+
+#control-panel > button {
+}
+
+.selected-button {
+  filter: invert(100%);
+}
