@@ -319,34 +319,57 @@ export class MapComponent implements OnInit {
         }
 
         // @ts-ignore
-        let coords = [features[key].lat, features[key].lon];
-        let feature = new Feature(new Point(coords));
-        const vectorLayer = new VectorLayer({
-          source: new VectorSource({
-            // @ts-ignore
-            features: [feature],
-          }),
-          style: pointStyle,
-        });
-        elem.onclick = function() {
-          if (yourLocation) {
-            // @ts-ignore
-            getRouteLayer(yourLocation, coords)
-              .then(layer => {
-                routeLayer.getLayers().push(layer);
-                map.render();
-              })
+        if (features[key].vectorLayers) {
+          elem.classList.add('selected-item');
+        }
 
-            selectedLayer.getLayers().push(vectorLayer);
-            map.render()
+        elem.onclick = function() {
+          if (!yourLocation) {
+            return;
           }
-          // selectedLayer.getLayers().remove(vectorLayer);
+
+          elem.classList.toggle('selected-item');
+
+          // @ts-ignore
+          let coords = [features[key].lat, features[key].lon];
+          let pointFeature = new Feature(new Point(coords));
+          const vectorLayer = new VectorLayer({
+            source: new VectorSource({
+              // @ts-ignore
+              features: [pointFeature],
+            }),
+            style: pointStyle,
+          });
+
+          // @ts-ignore
+          let layers = features[key].vectorLayers;
+          if (layers) {
+            // @ts-ignore
+            for (let layer of layers) {
+              map.removeLayer(layer);
+            }
+
+            // @ts-ignore
+            features[key].vectorLayers = undefined;
+            return;
+          }
+
+          getRouteLayer(yourLocation, coords)
+            .then(layer => {
+              // @ts-ignore
+              features[key].vectorLayers = [layer, vectorLayer];
+              // @ts-ignore
+              layers = features[key].vectorLayers;
+              // @ts-ignore
+              for (let layer of layers) {
+                map.addLayer(layer);
+              }
+            });
         }
 
         results.appendChild(elem);
         count++;
       }
-
     });
 
     // This is done to remove a label that appears on the map.
