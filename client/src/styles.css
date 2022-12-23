@@ -81,6 +81,17 @@ html, body {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  cursor: pointer;
+}
+
+.search-result-item:hover {
+  background-color: lightslategray;
+}
+
+.selected-item {
+  background: gray;
+  color: white;
 }
 
 button.ol-zoom-in, button.ol-zoom-out {
