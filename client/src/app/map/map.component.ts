@@ -15,7 +15,7 @@ import {
   HotelRepository, RestaurantRepository,
   SuperMarketRepository
 } from "../../repository/repositories";
-import {Fill, Icon, Stroke, Style} from "ol/style";
+import {Fill, Icon, Stroke, Style, Text} from "ol/style";
 import {Size} from "ol/size";
 import Geolocation from 'ol/Geolocation';
 import CircleStyle from "ol/style/Circle";
@@ -187,6 +187,7 @@ export class MapComponent implements OnInit {
     async function getRouteLayer(from: number[], to: number[], color: number[] = [100, 200, 255, 0.8]) {
       let route = await new RouteRepository().route(from[0], from[1], to[1], to[0]);
       // have to reverse the coords because OpenLayers expects [lon, lat] format
+      let distance = route.distance;
       route = route.points.map((x: { lat: any; lon: any; }) => [x.lon, x.lat]);
 
       // console.log(route);
@@ -196,6 +197,19 @@ export class MapComponent implements OnInit {
         type: 'route',
         geometry: polyline,
       });
+
+      routeFeature.setStyle(
+        new Style({
+          fill: new Fill({ color: color }),
+          stroke: new Stroke({ color: color, width: 3 }),
+          text: new Text({
+            text: `${ (distance / 1000).toFixed(2) } km`,
+            font: '18px "Roboto", Helvetica Neue, Helvetica, Arial, sans-serif',
+            fill: new Fill({ color: 'black' }),
+            scale: 0.7,
+          })
+        })
+      );
 
       const vectorLayer = new VectorLayer({
         source: new VectorSource({
