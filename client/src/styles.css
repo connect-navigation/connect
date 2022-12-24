@@ -14,7 +14,12 @@
 .map .ol-rotate {
   top: 3em;
 }
-
+body
+{
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
 
 html, body {
   margin: 0;
