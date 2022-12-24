@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.connect.model.*;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -38,7 +37,10 @@ public class DataHolder {
                     Long.parseLong(value[0]),
                     Double.parseDouble(value[1]),
                     Double.parseDouble(value[2]),
-                    value[3]
+                    value[3],
+                    Byte.parseByte(value[4].trim()),
+                    value[5],
+                    value.length > 6 ? value[6] : ""
             ));
         }
 
@@ -49,7 +51,10 @@ public class DataHolder {
                     Long.parseLong(value[0]),
                     Double.parseDouble(value[1]),
                     Double.parseDouble(value[2]),
-                    value[3]
+                    value[3],
+                    Byte.parseByte(value[4].trim()),
+                    value[5],
+                    value.length > 6 ? value[6] : ""
             ));
         }
 
@@ -61,7 +66,9 @@ public class DataHolder {
                     Double.parseDouble(value[1]),
                     Double.parseDouble(value[2]),
                     value[3],
-                    Byte.parseByte(value[4].trim())
+                    Byte.parseByte(value[4].trim()),
+                    value[5],
+                    value.length > 6 ? value[6] : ""
             ));
         }
 
@@ -73,7 +80,9 @@ public class DataHolder {
                     Double.parseDouble(value[1]),
                     Double.parseDouble(value[2]),
                     value[3],
-                    Byte.parseByte(value[4].trim())
+                    Byte.parseByte(value[4].trim()),
+                    value[5],
+                    value.length > 6 ? value[6] : ""
             ));
         }
 
@@ -84,7 +93,10 @@ public class DataHolder {
                     Long.parseLong(value[0]),
                     Double.parseDouble(value[1]),
                     Double.parseDouble(value[2]),
-                    value[3]
+                    value[3],
+                    Byte.parseByte(value[4].trim()),
+                    value[5],
+                    value.length > 6 ? value[6] : ""
             ));
         }
     }

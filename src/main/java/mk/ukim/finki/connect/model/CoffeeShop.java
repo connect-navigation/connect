@@ -6,9 +6,10 @@ import lombok.Data;
 @Data
 @Entity
 public class CoffeeShop extends Feature {
-    public CoffeeShop(long id, double lat, double lon, String name) {
-        super(id, lat, lon, name);
+    public CoffeeShop(Long id, Double lat, Double lon, String name, byte stars, String city, String street) {
+        super(id, lat, lon, name, stars, city, street);
     }
+
     public CoffeeShop() {
 
     }

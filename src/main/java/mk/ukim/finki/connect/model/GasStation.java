@@ -6,8 +6,9 @@ import lombok.Data;
 @Data
 @Entity
 public class GasStation extends Feature {
-    public GasStation(long id, double lat, double lon, String name) {
-        super(id, lat, lon, name);
+    public GasStation(Long id, Double lat, Double lon, String name, byte stars, String city, String street) {
+        super(id, lat, lon, name, stars, city, street);
     }
+
     public GasStation() {}
 }
