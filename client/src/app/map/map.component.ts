@@ -243,13 +243,13 @@ export class MapComponent implements OnInit {
       let superMarkets =  new SuperMarketRepository().all();
 
       for (let value of await coffeeShops) {
-        let key = 'Coffee Shop "' + value.name + '"';
+        let key = `${value.city} - Coffee Shop - "${value.name}"`;
         // @ts-ignore
         features[key] = value;
         keys.push(key);
       }
       for (let value of await gasStations) {// @ts-ignore
-        let key = 'Gas Station "' + value.name + '"';
+        let key = `${value.city} - Gas Station - "${value.name}"`;
         // @ts-ignore
         features[key] = value;
         keys.push(key);
@@ -257,7 +257,7 @@ export class MapComponent implements OnInit {
       // @ts-ignore
       let hotelsSorted = (await hotels).sort((a: object, b: object) => (b.stars - a.stars));
       for (let value of hotelsSorted) {// @ts-ignore
-        let key = 'Hotel "' + value.name + '"';
+        let key = `${value.city} - Hotel - "${value.name}"`;
         // @ts-ignore
         features[key] = value;
         keys.push(key);
@@ -265,13 +265,13 @@ export class MapComponent implements OnInit {
       // @ts-ignore
       let restaurantsSorted = (await restaurants).sort((a: object, b: object) => (b.stars - a.stars));
       for (let value of restaurantsSorted) {// @ts-ignore
-        let key = 'Restaurant "' + value.name + '"';
+        let key = `${value.city} - Restaurant - "${value.name}"`;
         // @ts-ignore
         features[key] = value;
         keys.push(key);
       }
       for (let value of await superMarkets) {// @ts-ignore
-        let key = 'Super Market "' + value.name + '"';
+        let key = `${value.city} - Super Market - "${value.name}"`;
         // @ts-ignore
         features[key] = value;
         keys.push(key);
