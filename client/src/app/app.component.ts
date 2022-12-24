@@ -18,16 +18,25 @@ export class AppComponent {
   ngOnInit(): void {
     let input = document.getElementById("search-input");
     let results = document.getElementById("search-results");
+    let bodyTag = document.getElementsByTagName("body");
 
-    if (input && results) {
-      input.onblur = function () {
+    if (input && results && bodyTag.length == 1) {
+      let body = bodyTag[0];
+      results.onclick = function (e) {
         // @ts-ignore
-        results.setAttribute('hidden', 'true');
+        input.focus();
+        e.stopPropagation();
       };
 
       input.onfocus = function () {
         // @ts-ignore
         results.removeAttribute('hidden');
+      };
+      input.onclick = function (e) {e.stopPropagation()};
+
+      body.onclick = function () {
+        // @ts-ignore
+        results.setAttribute('hidden', 'true');
       };
     }
   }
