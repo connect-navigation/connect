@@ -17,13 +17,19 @@ public abstract class Feature {
     private Double lon;
     private String name;
 
-    public Feature(long id, double lat, double lon, String name) {
+    private byte stars;
+    private String city;
+    private String street;
+
+    public Feature(Long id, Double lat, Double lon, String name, byte stars, String city, String street) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
         this.name = name;
+        this.stars = stars;
+        this.city = city;
+        this.street = street;
     }
-
 
     public Feature() {
 
