@@ -22,6 +22,7 @@ import CircleStyle from "ol/style/Circle";
 import {RouteRepository} from "../../repository/route";
 import {Polyline} from "ol/format";
 import LayerGroup from "ol/layer/Group";
+import {Layer} from "ol/layer";
 
 @Component({
   selector: 'app-map',
@@ -53,6 +54,7 @@ export class MapComponent implements OnInit {
 
     // Point style to represent point on the map
     const pointStyle = createStyle('assets/icon.png', [50, 50], undefined);
+    const homePointStyle = createStyle('assets/home-point.png', [50, 50], undefined);
 
     const view = new View({
       center: this.center,
@@ -90,7 +92,11 @@ export class MapComponent implements OnInit {
     });
 
     // Your location on the map, for now we assign it to an arbitrary Skopje location.
-    let yourLocation: number[] | undefined = [42.0112726, 21.4051544];;
+    let yourLocation: number[] | undefined = [21.4051544, 42.0112726];
+
+    let yourFeature = new Feature({
+      geometry: new Point(yourLocation),
+    });
 
     // The geolocation module is used to give the notification,
     // to allow the browser to give the location detail.
@@ -134,6 +140,8 @@ export class MapComponent implements OnInit {
     geolocation.on('change:position', function () {
       const coordinates = geolocation.getPosition();
       yourLocation = coordinates;
+      // @ts-ignore
+      yourFeature.setGeometry(new Point(yourLocation));
       positionFeature.setGeometry(coordinates ? new Point(coordinates) : undefined);
     });
 
@@ -144,7 +152,29 @@ export class MapComponent implements OnInit {
       }),
     });
 
-    let map = this.map;
+    new VectorLayer({
+      map: this.map,
+      source: new VectorSource({
+        features: [yourFeature],
+      }),
+      style: homePointStyle,
+    });
+
+      let map = this.map;
+
+    let routes: object[] = []
+    map.on('click', function (e) {
+      yourLocation = e.coordinate;
+      for (let r of routes) {
+        // @ts-ignore
+        map.removeLayer(r.layer);
+        // @ts-ignore
+        r.elem.classList.remove('selected-item');
+        // @ts-ignore
+        r.feature.vectorLayers = undefined;
+      }
+      yourFeature.setGeometry(new Point(yourLocation));
+    });
 
     // helper function used to display the points on button click.
     function buttonSetup(buttonId: string, repo: any) {
@@ -277,7 +307,6 @@ export class MapComponent implements OnInit {
         keys.push(key);
       }
     }
-    get().then(x => {});
 
     // Add a listener that is executed on key event. This is for search
     input.addEventListener('keyup', function () {
@@ -347,6 +376,8 @@ export class MapComponent implements OnInit {
             // @ts-ignore
             for (let layer of layers) {
               map.removeLayer(layer);
+              // @ts-ignore
+              routes = routes.filter(x => x.layer != layer);
             }
 
             // @ts-ignore
@@ -354,7 +385,7 @@ export class MapComponent implements OnInit {
             return;
           }
 
-          getRouteLayer(yourLocation, coords)
+          getRouteLayer(yourLocation.map(x => x).reverse(), coords)
             .then(layer => {
               // @ts-ignore
               features[key].vectorLayers = [layer, vectorLayer];
@@ -363,6 +394,8 @@ export class MapComponent implements OnInit {
               // @ts-ignore
               for (let layer of layers) {
                 map.addLayer(layer);
+                // @ts-ignore
+                routes.push({layer:layer, coords: coords, feature: features[key], elem: elem});
               }
             });
         }
@@ -381,5 +414,7 @@ export class MapComponent implements OnInit {
         l.setAttribute("hidden", "value");
       }
     }
+
+    get().then(x => {});
   }
 }
