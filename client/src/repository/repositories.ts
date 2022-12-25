@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import httpClient from '../infrastructure/http-client';
 
-const ServerLocation = 'https://connect-navigation-server.onrender.com';
+const ServerLocation = 'https://connect-production-91d2.up.railway.app';
 
 @Injectable()
 export class CoffeeShopRepository {
