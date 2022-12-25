@@ -18,7 +18,8 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          create_branch: true
-          skip_dirty_check: true
           branch: backend
+          create_branch: true
+          push_options: '--force'
+          skip_dirty_check: true
 
