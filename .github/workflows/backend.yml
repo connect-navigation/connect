@@ -16,9 +16,6 @@ jobs:
       - name: Remove frontend part
         run: rm -r client/
 
-      - name: Remove github actions
-        run: rm -r client/ .github/
-
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: backend
