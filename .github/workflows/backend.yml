@@ -12,9 +12,14 @@ jobs:
     steps:
       - name: git-checkout
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.WORKFLOW }}
 
       - name: Remove frontend part
         run: rm -r client/
+
+      - name: Remove backend github actions
+        run: rm -r .github/
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
