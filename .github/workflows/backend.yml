@@ -35,7 +35,7 @@ jobs:
         run: mkdir dist
 
       - name: Move build files to dist
-        run: mv -r target/*.jar bootstrap Dockerfile dist
+        run: mv target/*.jar bootstrap Dockerfile dist
 
       - name: Push to bachend branch
         uses: s0/git-publish-subdir-action@develop
