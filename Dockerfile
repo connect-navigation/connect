@@ -7,5 +7,6 @@ ADD spring-boot-docker.jar /spring-boot-docker.jar
 EXPOSE 8080
 EXPOSE 5432
 EXPOSE 443
-ENTRYPOINT ["java", "-jar", "/spring-boot-docker.jar"]
+EXPOSE $PORT
+ENTRYPOINT ["java", "-jar", "/spring-boot-docker.jar", "--server.port", "$PORT"]
 
