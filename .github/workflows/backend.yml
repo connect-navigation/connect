@@ -32,7 +32,7 @@ jobs:
         run: mvn clean package -DskipTests
 
       - name: Create dist directory
-        run: mkdir dist
+        run: mkdir -p dist/target && echo "keep me" > dist/target/.keepme
 
       - name: Move build files to dist
         run: mv target/*.jar bootstrap Dockerfile dist
