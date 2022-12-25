@@ -5,26 +5,43 @@ on:
     branches:
       - dev
 
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Clone and Push
+    name: Build and push
     steps:
       - name: git-checkout
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.WORKFLOW }}
 
-      - name: Remove frontend part
-        run: rm -r client/
-
-      - name: Remove backend github actions
-        run: rm -r .github/
-
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Set up JDK    
+        uses: actions/setup-java@v3
         with:
-          branch: backend
-          create_branch: true
-          push_options: '--force'
-          skip_dirty_check: true
+         java-version: '17'
+
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.2.1
+        with:
+          java-version: 17
+
+      - name: Build with Maven (skip tests)
+        run: mvn clean package -DskipTests
+
+      - name: Create dist directory
+        run: mkdir dist
+
+      - name: Move build files to dist
+        run: mv -r target/*.jar bootstrap Dockerfile dist
+
+      - name: Push to bachend branch
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: backend
+          FOLDER: dist
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW }}
+          MESSAGE: "Automatic Commit: ({sha}) {msg}"
 
